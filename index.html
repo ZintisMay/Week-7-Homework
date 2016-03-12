@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- boostrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- css style sheet -->
+<!-- <link rel="stylesheet" type="text/css" href="assets/css/style.css"> -->
+
+<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+
+	<title></title>
+
+	<style>
+	body{/*background-color:navy;*/background-image: url("rps.jpg");}
+	.container{background-color:navy;}
+	.blank {float:left;height:300px;width:300px;background-color:red;border-width:3px;border-color:black;margin:3px;}
+	img{float:left;}
+	.throw {height:200px;width:300px;margin:10px;}
+	.textform{clear:both;}
+	.wide{width:50%;}
+	#chatbox{width:50%;height:300px;clear:both;background-color:yellow;margin:20px;}
+	.jumbotron{margin:10px;}
+
+	</style>
+</head>
+<body>
+
+<div class="container">
+	<div style="text-align:center;background-color:green;">
+		<div class="jumbotron">
+			<h1>ROCK PAPER SCISSORS</h1>
+			<h1>SHOOT!</h1>
+		</div>
+
+				<!-- <div class="col-md-1 blank"></div> -->
+
+		<div class=" blank">
+			
+			<div class="throw" id="mythrow"></div>
+			<img src="rock.png" height="100" width="100" id="rock1"/>
+			<img src="paper.png"height="100" width="100"id="paper1"/>
+			<img src="scissors.png"height="100" width="100"id="scissors1"/>
+
+		</div>
+
+				<!-- <div class="col-md-2 blank"></div> -->
+
+				<div class="blank">
+					<p id="record"></p>
+					<input type="submit" value="Reset" id="Reset">
+
+				</div>
+
+		<div class=" blank">
+			
+			<div class="throw" id="yourthrow"></div>
+			<img src="rock.png" height="100" width="100"id="rock2"/>
+			<img src="paper.png"height="100" width="100"id="paper2"/>
+			<img src="scissors.png"height="100" width="100"id="scissors2"/>
+
+
+		</div>
+		<!-- chatbox -->
+		<div id="chatbox">
+			
+		</div>
+
+		<!-- chat input -->
+		<form class="textform">
+			<input type="text" value="name?">
+			<input type="text" class="wide">
+			<input type="submit" value="Submit">
+
+		</form>
+
+				<!-- <div class="col-md-1 blank"></div> -->
+
+	</div>
+
+
+</div>
+
+<!-- jquery link -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+<!-- javalink -->
+<!-- <script src="assets/javascript/app.js"></script> -->
+
+<!-- scripts start here -->
+<script type="text/javascript">
+
+var rpsData = new Firebase("https://rpsz.firebaseio.com/");
+
+rpsData.on("value", function(snapshot){
+
+		rpsData.set({
+		Player1Wins: Player1Wins+1,
+		Player1Throw: "",
+		Player1Loss: Player1Loss+2,
+		Player2Wins: Player2Wins+3,
+		Player2Throw: "",
+		Player2Loss: Player2Loss+4,
+	});
+
+	console.log(snapshot.val());
+	// makearecord();
+	$("#record").append("<p>" + rpsData.Player1Throw + "P1 throw P2"+rpsData.Player2Throw + "</p>");
+	$("#record").append("<p>" + rpsData.Player1Wins + "P1 Wins P2"+rpsData.Player2Wins + "</p>");
+	$("#record").append("<p>" + rpsData.Player1Losses + "P1 Losses P2"+rpsData.Player2Losses + "</p>");
+});
+
+// function makearecord() {
+
+// 	$("#record").append("<p>" + snapshot.val().Player1Throw + "P1 throw P2"+snapshot.val().Player2Throw + "</p>");
+// 	$("#record").append("<p>" + snapshot.val().Player1Wins + "P1 Wins P2"+snapshot.val().Player2Wins + "</p>");
+// 	$("#record").append("<p>" + snapshot.val().Player1Losses + "P1 Losses P2"+snapshot.val().Player2Losses + "</p>");
+// };
+
+
+
+$('#Reset').on('click', function(){
+
+alert('anything');
+
+//reset
+$("#record").empty();
+
+// resets firebase data
+	rpsData.set({
+		Player1Wins: 0,
+		Player1Throw: "",
+		Player1Loss: 0,
+		Player2Wins: 0,
+		Player2Throw: "",
+		Player2Loss: 0,
+	});
+
+//makearecord function
+
+// $("#record").append("<p>" + rpsData.Player1Throw + "P1 throw P2"+rpsData.Player2Throw + "</p>");
+// 	$("#record").append("<p>" + rpsData.Player1Wins + "P1 Wins P2"+rpsData.Player2Wins + "</p>");
+// 	$("#record").append("<p>" + rpsData.Player1Losses + "P1 Losses P2"+rpsData.Player2Losses + "</p>");
+// ----
+
+// erroneous console log
+// 			console.log(
+// Player1Wins
+// + Player1Throw
+// + Player1Loss
+// + Player2Wins
+// + Player2Throw
+// + Player2Loss)
+
+return false;
+
+});
+
+
+var playerA = 0;
+var playerthrowA = "";
+var playerthrowB = "";
+
+playerA = 1;
+playerB = 2;	
+
+$('#rock1').on('click', function(){
+	if(playerA == 1){
+		playerthrowA = "r";
+		console.log(playerthrowA);
+	}
+	return false;
+});
+
+$('#paper1').on('click', function(){
+	if(playerA == 1){
+		playerthrowA = "p";
+		console.log(playerthrowA);
+	}
+	return false;
+});
+
+$('#scissors1').on('click', function(){
+	if(playerA == 1){
+		playerthrowA = "s";
+		console.log(playerthrowA);
+	}
+	return false;
+});
+
+
+
+$('#rock2').on('click', function(){
+	if(playerB == 2){
+		playerthrowB = "r";
+		console.log(playerthrowB);
+	}
+	return false;
+});
+
+$('#paper2').on('click', function(){
+	if(playerB == 2){
+		playerthrowB = "p";
+		console.log(playerthrowB);
+	}
+	return false;
+});
+
+$('#scissors2').on('click', function(){
+	if(playerB == 2){
+		playerthrowB = "s";
+		console.log(playerthrowB);
+	}
+	return false;
+});
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
