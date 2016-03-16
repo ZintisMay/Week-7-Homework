@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Example of Time Telling</title>
+
+	<!-- Added Moment JS -->
+ 	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+ 	<!-- boostrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+ 	<!-- jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+	<!-- firebase -->
+	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+
+	<!-- css link -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+	<body>
+
+		<div class="container">
+
+		<div class="jumbotron">
+
+			<h1>Train Schedules</h1>
+			<h3 id="timeclock"></h3>	
+
+		</div>
+
+		<div class="panel panel-default">
+
+			<div class="panel panel-heading"><h3>Train Input</h3></div>
+
+			<div class="panel panel-body">
+				
+			<form>
+<!-- name -->
+				<h4>Train Line Name</h4>
+				<div class="input-group input-group-lg">
+					<input type="text" class="erase form-control " id="name">
+				</div>
+<!-- destination -->
+				<h4 style="margin-top:10px;">Destination</h4>
+				<div class="input-group input-group-lg">
+					<input type="text"  class="erase form-control input-group input-group-lg" id="destination">
+				</div>
+
+
+<!-- first run -->
+				<h4>First Train</h4>
+
+				<div style="text-align:center;">
+					<div class="fleft input-group input-group-lg">
+						<h5>Hours:</h5>
+						<input type="number" min="0" max="24" class="erase form-control input-group input-group-lg"  id="starth">
+					</div>
+					<h4 class="fleft"><strong>:</strong></h4>
+					<div class="fleft input-group input-group-lg">
+						<h5>Minutes:</h5>
+						<input type="number" min="0" max="59" class="erase form-control input-group input-group-lg"  id="startm">		
+					</div>
+				</div>
+
+
+		<!-- 		<h4>First Train</h4>
+				<div class="input-group input-group-lg">
+					<input type="time"  class="erase form-control input-group input-group-lg" id="starttime">
+				</div> -->
+				<div class="cboth"></div>
+<!-- interval -->
+				<h4>Interval</h4>
+
+				<div style="text-align:center;">
+					<div class="fleft input-group input-group-lg">
+						<h5>Hours:</h5>
+						<input type="number" min="0" max="24" class="erase form-control input-group input-group-lg"  id="localhours">
+					</div>
+
+					<div class="fleft input-group input-group-lg">
+					
+					<h4 class="fleft" style="margin-top:50px;"><strong>:</strong></h4>
+					</div>
+
+					
+					<div class="fleft input-group input-group-lg">
+						<h5>Minutes:</h5>
+						<input type="number" min="0" max="59" class="erase form-control input-group input-group-lg"  id="localminutes">		
+					</div>
+				</div>
+
+
+				<div class="cboth"></div>
+
+	
+<!-- submit -->
+				<br>
+				<br>
+				<input type="submit" id="submit">
+
+
+			</form>
+
+			</div>
+
+		</div>
+
+		<div class="panel panel-default">
+
+			<div class="panel panel-heading"><h3>Train Schedules</h3></div>
+
+			<div class="panel panel-body">
+				
+			<div class="col col-md-3 borderr" id="trainname"><strong>Name</strong></div>
+			<div class="col col-md-3 borderr" id="traindestination"><strong>Destination</strong></div>
+			<div class="col col-md-2 borderr" id="traindeparture"><strong>Departure</strong></div>
+			<div class="col col-md-2 borderr" id="traininterval"><strong>Intervals</strong></div>
+			<div class="col col-md-2 borderr" id="trainnextdeparture"><strong>Next Departure</strong></div>
+		
+	
+
+			</form>
+
+			</div>
+
+		</div>
+
+	<div>
+		
+
+
+<!-- thecode ---------------------------------------------------------------->
+<script src = "logic.js"></script>
+
+
+
+	
+</body>
+</html>

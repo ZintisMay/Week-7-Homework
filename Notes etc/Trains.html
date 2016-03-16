@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Example of Time Telling</title>
+
+	<!-- Added Moment JS -->
+ 	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+ 	<!-- boostrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+ 	<!-- jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+	<!-- firebase -->
+	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+
+
+	<script src="sorttable.js"></script>
+
+
+
+<style>
+	
+	.fleft{float:left;margin-right:3px;}
+	.cboth{clear:both;}
+	.borderr{border-width:0px 2px 0px 0px;border-color:black;border-style:solid;}
+</style>
+
+ 	<script src=></script>
+</head>
+	<body>
+
+		<div class="container">
+
+		<div class="jumbotron">
+
+			<h1>Train Schedules</h1>	
+
+		</div>
+
+		<div class="panel panel-default">
+
+			<div class="panel panel-heading"><h3>Train Input</h3></div>
+
+			<div class="panel panel-body">
+				
+			<form>
+
+				<h4>Train Line Name</h4>
+				<div class="input-group input-group-lg">
+					<input type="text" class="erase form-control " id="name">
+				</div>
+
+
+
+				<h4>First Train</h4>
+
+				<div style="text-align:center;">
+					<div class="fleft input-group input-group-lg">
+						
+						<input type="number" min="0" max="24" class="erase form-control input-group input-group-lg"  id="starth">
+					</div>
+					<h4 class="fleft"><strong>:</strong></h4>
+					<div class="fleft input-group input-group-lg">
+						
+						<input type="number" min="0" max="60" class="erase form-control input-group input-group-lg"  id="startm">		
+					</div>
+				</div>
+
+
+		<!-- 		<h4>First Train</h4>
+				<div class="input-group input-group-lg">
+					<input type="time"  class="erase form-control input-group input-group-lg" id="starttime">
+				</div> -->
+				<div class="cboth"></div>
+
+				<h4>Interval</h4>
+
+				<div style="text-align:center;">
+					<div class="fleft input-group input-group-lg">
+						<h5>Hours:</h5>
+						<input type="number" min="0" max="24" class="erase form-control input-group input-group-lg"  id="localhours">
+					</div>
+
+					<div class="fleft input-group input-group-lg">
+					
+					<h4 class="fleft" style="margin-top:50px;"><strong>:</strong></h4>
+					</div>
+
+					
+					<div class="fleft input-group input-group-lg">
+						<h5>Minutes:</h5>
+						<input type="number" min="0" max="60" class="erase form-control input-group input-group-lg"  id="localminutes">		
+					</div>
+				</div>
+
+
+				<div class="cboth"></div>
+
+				<h4 style="margin-top:10px;">Destination</h4>
+				<div class="input-group input-group-lg">
+					<input type="text"  class="erase form-control input-group input-group-lg" id="destination">
+				</div>
+				<br>
+				<br>
+				<input type="submit" id="submit">
+
+
+			</form>
+
+			</div>
+
+		</div>
+
+		<div class="panel panel-default">
+
+			<div class="panel panel-heading"><h3>Train Schedules</h3></div>
+
+			<div class="panel panel-body">
+				
+			<div class="col col-md-2 borderr" id="trainname">Name</div>
+			<div class="col col-md-2 borderr" id="traindeparture">Departure</div>
+			<div class="col col-md-2 borderr" id="trainnextdeparture">Next Departure</div>
+			<div class="col col-md-2 borderr" id="traindestination">Destination</div>
+			<div class="col col-md-2 borderr" id="traina">a</div>
+			<div class="col col-md-2 " id="trainb">b</div>
+
+			</form>
+
+			</div>
+
+		</div>
+
+
+<table style="width:100%" class="sortable">
+  <tr>
+    <td>Jill</td>
+    <td>Smith</td> 
+    <td>50</td>
+  </tr>
+  <tr>
+    <td>Eve</td>
+    <td>Jackson</td> 
+    <td>94</td>
+  </tr>
+</table>
+
+
+
+
+	<div>
+		
+	<script>
+
+var localname = "";
+var localstarth = "";
+var localstartm = "";
+var localhours = "";
+var localminutes = "";
+var localdestination = "";
+
+$('#submit').on('click', function(){
+
+	localname = $('#name').val();
+	localstarth = $('#starth').val();
+	localstartm = $('#startm').val();
+	localhours = $('#localhours').val();
+	localminutes = $('#localminutes').val();
+	localdestination = $('#destination').val();
+
+	console.log(localname);
+	console.log(localstarth);
+	console.log(localstartm);
+	console.log(localhours);
+	console.log(localminutes);
+	console.log(localdestination);
+
+if(localstartm.length == 1){localstartm = "0" + localstartm};
+if(localminutes.length == 1){localminutes = "0" + localminutes};
+
+	// $('.erase form-control').val("");
+
+	$('#trainname').append('<p>' + localname + '</p>')
+	$('#traindeparture').append('<p>' + localstarth + ":" +localstartm + '</p>')
+	$('#trainnextdeparture').append('<p>' + localhours + ":" + localminutes + '</p>')
+	$('#traindestination').append('<p>' + localdestination + '</p>')
+
+
+
+
+	return false;
+});
+
+var FBdata = new Firebase("https://trainz.firebaseio.com/")
+
+		
+	</script>
+</body>
+</html>

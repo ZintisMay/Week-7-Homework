@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Example of Time Telling</title>
+
+	<!-- Added Moment JS -->
+ 	<script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+ 	<!-- boostrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+ 	<!-- jquery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+	<!-- firebase -->
+	<script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+
+	<!-- sorttable -->
+	<script src="sorttable.js"></script>
+
+
+
+
+
+<style>
+	.jumbotron{text-align:center;}
+	.fleft{float:left;margin-right:3px;}
+	.cboth{clear:both;}
+	.borderr{border-width:0px 0px 0px 2px;border-color:black;border-style:solid;}
+</style>
+
+ 	<script src=></script>
+</head>
+	<body>
+
+		<div class="container">
+
+		<div class="jumbotron">
+
+			<h1>Train Schedules</h1>
+			<h3 id="timeclock"></h3>	
+
+		</div>
+
+		<div class="panel panel-default">
+
+			<div class="panel panel-heading"><h3>Train Input</h3></div>
+
+			<div class="panel panel-body">
+				
+			<form>
+<!-- name -->
+				<h4>Train Line Name</h4>
+				<div class="input-group input-group-lg">
+					<input type="text" class="erase form-control " id="name">
+				</div>
+<!-- destination -->
+				<h4 style="margin-top:10px;">Destination</h4>
+				<div class="input-group input-group-lg">
+					<input type="text"  class="erase form-control input-group input-group-lg" id="destination">
+				</div>
+
+
+<!-- first run -->
+				<h4>First Train</h4>
+
+				<div style="text-align:center;">
+					<div class="fleft input-group input-group-lg">
+						<h5>Hours:</h5>
+						<input type="number" min="0" max="24" class="erase form-control input-group input-group-lg"  id="starth">
+					</div>
+					<h4 class="fleft"><strong>:</strong></h4>
+					<div class="fleft input-group input-group-lg">
+						<h5>Minutes:</h5>
+						<input type="number" min="0" max="59" class="erase form-control input-group input-group-lg"  id="startm">		
+					</div>
+				</div>
+
+
+		<!-- 		<h4>First Train</h4>
+				<div class="input-group input-group-lg">
+					<input type="time"  class="erase form-control input-group input-group-lg" id="starttime">
+				</div> -->
+				<div class="cboth"></div>
+<!-- interval -->
+				<h4>Interval</h4>
+
+				<div style="text-align:center;">
+					<div class="fleft input-group input-group-lg">
+						<h5>Hours:</h5>
+						<input type="number" min="0" max="24" class="erase form-control input-group input-group-lg"  id="localhours">
+					</div>
+
+					<div class="fleft input-group input-group-lg">
+					
+					<h4 class="fleft" style="margin-top:50px;"><strong>:</strong></h4>
+					</div>
+
+					
+					<div class="fleft input-group input-group-lg">
+						<h5>Minutes:</h5>
+						<input type="number" min="0" max="59" class="erase form-control input-group input-group-lg"  id="localminutes">		
+					</div>
+				</div>
+
+
+				<div class="cboth"></div>
+
+	
+<!-- submit -->
+				<br>
+				<br>
+				<input type="submit" id="submit">
+
+
+			</form>
+
+			</div>
+
+		</div>
+
+		<div class="panel panel-default">
+
+			<div class="panel panel-heading"><h3>Train Schedules</h3></div>
+
+			<div class="panel panel-body">
+				
+			<div class="col col-md-3 borderr" id="trainname"><strong>Name</strong></div>
+			<div class="col col-md-3 borderr" id="traindestination"><strong>Destination</strong></div>
+			<div class="col col-md-2 borderr" id="traindeparture"><strong>Departure</strong></div>
+			<div class="col col-md-2 borderr" id="traininterval"><strong>Intervals</strong></div>
+			<div class="col col-md-2 borderr" id="trainnextdeparture"><strong>Next Departure</strong></div>
+		
+	
+
+			</form>
+
+			</div>
+
+		</div>
+
+	<div>
+		
+
+
+
+
+
+
+<script>
+
+	var rightnow = new Date();
+
+	setInterval(function(){
+		var rightnow = new Date();
+		$('#timeclock').empty();
+		$('#timeclock').append(rightnow.getHours() + ":" + rightnow.getMinutes() + ":" + rightnow.getSeconds());
+	},100);
+
+	var FBdata = new Firebase("https://trainz.firebaseio.com/");	
+
+	var localname = "";
+	var localstarth = 0;
+	var localstartm = 0;
+	var localnowh = 0;
+	var localnowm = 0;
+	var localdestination = "";
+
+
+
+
+//onclick function submits new child---------------------
+	$('#submit').on('click', function(){
+
+		localname = $('#name').val();
+		localstarth = $('#starth').val().trim();
+		localstartm = $('#startm').val().trim();
+		localnowh = $('#localhours').val().trim();
+		localnowm = $('#localminutes').val().trim();
+		localdestination = $('#destination').val().trim();
+
+		if (localname == ""){localname = "::data missing::";}
+		if (localstarth == ""){localstarth = 0;}
+		if (localstartm == ""){localstartm = 0;}
+		if (localnowh == ""){localnowh = 0;}
+		if (localnowm == ""){localnowm = 0;}
+		if (localdestination == ""){localdestination = "::data missing::";}
+
+
+		var newTrain = {
+
+			name: localname,
+			starth: localstarth,
+			startm: localstartm,
+			nowh: localnowh,
+			nowm: localnowm,
+			destination: localdestination
+		}
+
+		FBdata.push(newTrain);
+
+			console.log(localname);
+			console.log(localstarth);
+			console.log(localstartm);
+			console.log(localhours);
+			console.log(localminutes);
+			console.log(localdestination);
+
+			// $('.erase form-control').val("");
+
+			// $('#trainname').append('<p>' + localname + '</p>')
+			// $('#traindeparture').append('<p>' + localstarth + ":" +localstartm + '</p>')
+			// $('#trainnextdeparture').append('<p>' + localhours + ":" + localminutes + '</p>')
+			// $('#traindestination').append('<p>' + localdestination + '</p>')
+
+		return false;
+	});
+
+
+
+
+
+//child added function-----------------
+	FBdata.on('child_added', function(childSnapshot){
+
+	console.log(childSnapshot.val());
+	//set local vars
+		var localname = childSnapshot.val().name;
+		var localstarth = childSnapshot.val().starth;
+		var localstartm = childSnapshot.val().startm;
+		var localhours = childSnapshot.val().nowh;
+		var localminutes = childSnapshot.val().nowm;
+		var localdestination = childSnapshot.val().destination;
+
+	//convert time into gross minutes
+		var minstart = tominutes(localstarth, localstartm);
+		var minint = tominutes(localhours, localminutes);
+		var minnow = tominutes(new Date().getHours(), new Date().getMinutes());
+	//i don't think these are necessary
+		var tempstart = totime(localstarth, localstartm);
+		var tempint = totime(localhours, localminutes);
+		var tempnow = totime(new Date().getHours(), new Date().getMinutes());
+	//the goal, and a loop breaker
+		var nexttrain = minstart;
+		var breaker = 0;
+
+	//consolelog to make sure it's doing what I think it is
+	console.log("minstart");
+	console.log(minstart);
+	console.log("minint");
+	console.log(minint);
+	console.log("minnow");
+	console.log(minnow);
+
+	// console.log("tempstart");console.log(tempstart);
+	// console.log("tempint");console.log(tempint);
+	// console.log("tempnow");console.log(tempnow);
+
+	//was having difficulty with the for loop, making sure my vars are int's
+	parseInt(minstart);
+	parseInt(minint);
+	parseInt(minnow);
+
+	//loop to add intervals to the 
+	for (x = 0; x < 2000; x++ ){
+
+		if (nexttrain < minnow) {nexttrain = nexttrain + minint;}
+
+	}
+
+	console.log("nexttrain");
+	console.log(nexttrain);
+
+//this code is superfluous, I think
+	// if (nexttrain > minnow){
+
+	// 	nexttrain = minstart;
+	// }
+
+
+	// if (minstart > minnow) {nexttrain = minstart;}
+
+
+	console.log("herewego");
+	console.log(totime(Math.floor(nexttrain/60), (nexttrain%60)));
+	// nexttrain = totime(Math.floor((minstart-minnow)/60), ((minstart-minnow)%60));
+
+		
+		// else { for (nexttrain = minstart; nexttrain <= minnow; nexttrain =+ minint){
+		// 		console.log(nexttrain)
+
+		// 		if (nexttrain > 1000){break;}
+		// 	};
+		// };
+	console.log("nexttrain");
+	console.log(nexttrain);
+
+	//log the train schedules in a chart
+	writer('#trainname', localname);
+	writer('#traindestination', localdestination);
+	writer('#traindeparture', tempstart);
+	writer('#traininterval', tempint);
+	writer('#trainnextdeparture', totime(Math.floor(nexttrain/60), (nexttrain%60)));
+
+	},function(errorObject){
+		console.log("the read failed: " + errorObject.code);
+	});
+	//end child event ----------------------------------
+
+
+	function writer(a, b){
+		// if(localstartm.length == 1){localstartm = "0" + localstartm};
+		// if(localminutes.length == 1){localminutes = "0" + localminutes};
+		$(a).append("<br>" + b);
+	};
+
+	function totime(a , b){
+
+		var hours = a;
+		var minutes = b;
+		hours = hours.toString();
+		minutes = minutes.toString();
+		if (b.length < 2){minutes = "0" + minutes};
+		var time = hours + ":" + minutes
+
+		return time;
+
+	};
+
+	function tominutes(a, b){
+
+		var minutes = (60*parseInt(a, 10)) + parseInt(b, 10);
+
+		return minutes;
+	};
+
+	console.log(totime(3,4));
+	console.log(totime(3,12));
+
+	function nexttrain(now, start, interval){
+
+		var difference = now - start;
+		var waittime = (difference % interval);
+
+
+	};
+
+		
+	</script>
+	
+</body>
+</html>
